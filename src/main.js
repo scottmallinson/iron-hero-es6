@@ -9,7 +9,12 @@ function buildDom(html) {
   return mainElement;
 }
 
+function updateTitle(name) {
+  document.title = name;
+}
+
 function buildSplash() {
+  const title = updateTitle(`Game name`);
   const buildSplash = buildDom(`
   <section>
     <h1>Game name</h1>
@@ -22,6 +27,7 @@ function buildSplash() {
 }
 
 function buildGameScreen() {
+  const title = updateTitle(`Game on!`);
   const gameScreen = buildDom(`
   <section>
     <h1>Game screen</h1>
@@ -38,6 +44,7 @@ function buildGameScreen() {
 }
 
 function buildGameOverScreen() {
+  const title = updateTitle(`Game over`);
   const gameOverScreen = buildDom(`
   <section>
     <h1>Game over!</h1>
@@ -51,6 +58,7 @@ function buildGameOverScreen() {
 }
 
 function buildWinScreen() {
+  const title = updateTitle(`Winner!`);
   const winScreen = buildDom(`
   <section>
     <h1>Winner winner chicken dinner!</h1>
