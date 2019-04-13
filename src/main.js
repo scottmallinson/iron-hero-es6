@@ -32,7 +32,6 @@ function main(){
     const title = updateTitle(`Game on!`);
     const gameScreen = buildDom(`
     <section>
-      <h1>Game screen</h1>
       <canvas></canvas>
     </section>`);
 
@@ -42,6 +41,14 @@ function main(){
     game.setGameOverCallback(buildGameOverScreen);
     game.setWinCallback(buildWinScreen);
 
+    document.addEventListener('keydown', function(event){
+      if (event.keyCode === 37){ // Arrow left keypress
+        game.checkKeyPressCollisions(event);
+      }
+      else if (event.keyCode === 39){ // Arrow right keypress
+        game.checkKeyPressCollisions(event);
+      }
+    });
   }
 
   function buildGameOverScreen() {

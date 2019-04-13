@@ -8,7 +8,7 @@ function Game(canvas){
   this.duration = 130; // length of song
   this.currentPosition = 0; // position in song
   this.player;
-  this.instrument;
+  this.notes = [];
   this.score = 0;
   this.streak = 0;
   this.isWin = false;
@@ -21,14 +21,12 @@ Game.prototype.startLoop = function() {
     this.updateCanvas();
     this.drawCanvas();
     this.checkDuration();
-    this.checkCollisions();
 
     this.currentPosition++; // MOVE INTO checkDuration();
 
     if (this.isGameOver === false){
       window.requestAnimationFrame(loop);
     }
-    console.log(this.isGameOver);
   }
 
   window.requestAnimationFrame(loop);
@@ -43,7 +41,10 @@ Game.prototype.updateCanvas = function() {
 }
 
 Game.prototype.drawCanvas = function() {
-  
+  const canvasElement = document.querySelector('canvas');
+  // draw the fret board
+  this.ctx.fillStyle = "red";
+  this.ctx.fillRect(100, 0, 100, this.canvas.height);
 }
 
 Game.prototype.checkDuration = function() {
@@ -60,8 +61,8 @@ Game.prototype.checkDuration = function() {
   }
 }
 
-Game.prototype.checkCollisions = function() {
-
+Game.prototype.checkKeyPressCollisions = function(keyPressEvent) {
+  //console.log(keyPressEvent);
 }
 
 Game.prototype.setGameOverCallback = function(buildGameOverScreen) {
