@@ -1,8 +1,7 @@
 'use strict';
-
 console.log('MAIN CONNECTED');
 
-function main(){
+function main() {
 
   const mainElement = document.querySelector('main');
 
@@ -11,35 +10,35 @@ function main(){
     return mainElement;
   }
 
-  function updateTitle(name) {
-    document.title = name;
-  }
-
-  function buildSplash() {
-    const title = updateTitle(`Game name`);
-    const buildSplash = buildDom(`
-    <section>
-      <h1>Game name</h1>
-      <button class="start-button">Start</button>
-    </section>`);
+  function buildSplashScreen(){
+    const splashScreen = buildDom(`
+      <section>
+        <h1>Game name</h1>
+        <button class="start-button">Start</button>
+      </section>
+    `);
 
     const startButton = document.querySelector('.start-button');
     startButton.addEventListener('click', buildGameScreen);
-
   }
 
-  function buildGameScreen() {
-    const title = updateTitle(`Game on!`);
+  function buildGameScreen(){
     const gameScreen = buildDom(`
-    <section>
-      <canvas></canvas>
-    </section>`);
+      <section class="game-container">
+        <canvas></canvas>
+      </section>
+    `);
 
+    const gameContainerElement = document.querySelector('.game-container');
+    const width = gameContainerElement.offsetWidth;
+    const height = gameContainerElement.offsetHeight;
     const canvasElement = document.querySelector('canvas');
+    canvasElement.setAttribute('width', width);
+    canvasElement.setAttribute('height', height);
+
     const game = new Game(canvasElement);
     game.startLoop();
     game.setGameOverCallback(buildGameOverScreen);
-    game.setWinCallback(buildWinScreen);
 
     document.addEventListener('keydown', function(event){
       if (event.keyCode === 37){ // Arrow left keypress
@@ -49,37 +48,27 @@ function main(){
         game.checkKeyPressCollisions(event);
       }
     });
+
+    document.addEventListener('keyup', function(event){
+      if ((event.keyCode === 37) || (event.keyCode === 39)) {
+        
+      }
+    });
   }
 
-  function buildGameOverScreen() {
-    const title = updateTitle(`Game over`);
+  function buildGameOverScreen(){
     const gameOverScreen = buildDom(`
-    <section>
-      <h1>Game over!</h1>
-      <p>Lorum ipsum</p>
-      <button class="start-button">Play again</button>
-    </section>
+      <section>
+        <h1>Game Over!</h1>
+      </section>
+      <button class="restart-button">Restart</button>
     `);
 
-    const startButton = document.querySelector('.start-button');
-    startButton.addEventListener('click', buildGameScreen);
+    const restartButton = document.querySelector('.restart-button');
+    restartButton.addEventListener('click', buildGameScreen);
   }
 
-  function buildWinScreen() {
-    const title = updateTitle(`Winner!`);
-    const winScreen = buildDom(`
-    <section>
-      <h1>Winner winner chicken dinner!</h1>
-      <p>Lorum ipsum</p>
-      <button class="start-button">Play again</button>
-    </section>
-    `);
-
-    const startButton = document.querySelector('.start-button');
-    startButton.addEventListener('click', buildGameScreen);
-  }
-
-  buildSplash();
+  buildSplashScreen();
 
 }
 
