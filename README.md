@@ -118,23 +118,23 @@ winScreen()
 ## Task
 Task definition in order of priority
 
-Main - buildDOM
-Main - buildSplash
-Main - addEventListener
-Game - buildDOM
-Main - transitions between states
-Main - destroyStates
-Game - createGame
-Game - startGame
-Drums - displayNotes
-Game - add music
-Game - syncing notes to music
-Game - checkCollision
-Game - updateScore
-Game - checkStreak
-Game - durationExceeded
-Game - won
-Game - lost
+- Main - buildDOM
+- Main - buildSplash
+- Main - addEventListener
+- Game - buildDOM
+- Main - transitions between states
+- Main - destroyStates
+- Game - createGame
+- Game - startGame
+- Drums - displayNotes
+- Game - add music
+- Game - syncing notes to music
+- Game - checkCollision
+- Game - updateScore
+- Game - checkStreak
+- Game - durationExceeded
+- Game - won
+- Game - lost
 
 
 ## Links
