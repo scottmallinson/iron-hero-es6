@@ -1,5 +1,5 @@
 # Project name
-
+Iron Hero
 
 ## Description
 A HTML, CSS and JavaScript Guitar Hero clone.
