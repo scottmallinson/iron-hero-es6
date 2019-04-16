@@ -84,15 +84,15 @@ Game.prototype.drawCanvas = function() {
   this.ctx.fillStyle = "orange";
   this.ctx.fillRect(0, this.canvas.height - 150, this.canvas.width, 100);
   // DISPLAY SCORE
-  this.ctx.font = '18px sans-serif';
+  this.ctx.font = '16px sans-serif';
   this.ctx.textAlign = 'right';
-  this.ctx.fillStyle = 'black';
-  this.ctx.fillText(`Score: ${this.score}`, this.canvas.width - 50, 30);
+  this.ctx.fillStyle = 'white';
+  this.ctx.fillText(`Score: ${this.score}`, this.canvas.width - 10, 30);
   // DISPLAY STREAK
-  this.ctx.font = '18px sans-serif';
+  this.ctx.font = '16px sans-serif';
   this.ctx.textAlign = 'right';
-  this.ctx.fillStyle = 'black';
-  this.ctx.fillText(`Streak: ${this.streak}`, this.canvas.width - 50, 50);
+  this.ctx.fillStyle = 'white';
+  this.ctx.fillText(`Streak: ${this.streak}`, this.canvas.width - 10, 50);
 
   this.playerOne.draw();
   this.playerTwo.draw();

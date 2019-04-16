@@ -74,20 +74,33 @@ p {
 
 /* ---- components ---- */
 
-.button {
-  width: 100%;
-  background-color: blue;
+button {
+  width: 20%;
+  background-color: black;
   color: #fff;
-  border: 1px solid #fff
+  border: 1px solid #fff;
+  font-size: 20px;
 }
 
-.button-alt {
-  color: blue;
-  background-color: #fff;
+body {
+  background-image: url(../img/bg.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  color: white;
+  text-align: center;
 }
 
 .game-container {
+  background: rgba(0, 0, 0, 0.1);
+  margin-top: 5vh;
   height: 90vh;
   width: 100%;
-  border: 1px solid black;
+}
+
+h1 {
+  font-family: 'New Rocker', cursive;
+  font-size: 100px;
 }
