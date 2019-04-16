@@ -44,12 +44,7 @@ function main() {
     game.setGameOverCallback(buildGameOverScreen);
 
     document.addEventListener('keydown', function(event){
-      if (event.keyCode === 37){ // Arrow left keypress
         game.checkKeyPressCollisions(event);
-      }
-      else if (event.keyCode === 39){ // Arrow right keypress
-        game.checkKeyPressCollisions(event);
-      }
     });
   }
 

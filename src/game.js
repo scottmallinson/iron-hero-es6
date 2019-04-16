@@ -1,7 +1,7 @@
 'use strict';
 console.log('GAME CONNECTED');
 
-function Game(canvas, audio){
+function Game(canvas, audioElement){
   this.playerOne = null;
   this.playerTwo = null;
   this.notes1 = [];
@@ -9,9 +9,9 @@ function Game(canvas, audio){
   this.canvas = canvas;
   this.ctx = this.canvas.getContext('2d');
   this.gameOver = false;
-  this.audio = audio;
-  this.duration = audio.duration;
-  this.score = 0; // UPDATE SCORE
+  this.audio = audioElement;
+  this.duration = audioElement.duration;
+  this.score = 0;
   this.streak = 0;
 };
 
@@ -21,16 +21,24 @@ Game.prototype.startLoop = function() {
   this.playerTwo = new Player(this.canvas, 'green', (this.canvas.width / 2) + 50);
 
   this.audio.addEventListener('canplaythrough', (event) => {
-    //this.audio.play();
+    setTimeout(function(){
+      document.querySelector('audio').play();
+    }, 5000)
   });
-  let timer = 0;
+
+  let seconds = 0;
+
+  setInterval(function(){
+    seconds += 1;
+    console.log(seconds);
+  }, 1000);
 
   const loop = () => {
 
-    if(Math.random() > 0.99){
+    if (Math.random() > 0.99){
       this.notes1.push(new Note(this.canvas, 'red', (this.canvas.width / 2) - 65));
     }
-    if(Math.random() > 0.99){
+    if (Math.random() > 0.99){
       this.notes2.push(new Note(this.canvas, 'yellow', (this.canvas.width / 2) + 35));
     }
 
@@ -39,15 +47,13 @@ Game.prototype.startLoop = function() {
     this.drawCanvas();
     this.checkOffScreen();
     
-    //this.checkCollisions();
     if (this.gameOver === false) {
       window.requestAnimationFrame(loop);
     }
-    
-    //console.log(this.audio.ended);
-    timer = timer + 1;
-    //console.log(timer);
 
+    // if (seconds >= this.audio.duration) {
+    //   window.requestAnimationFrame(loop);
+    // }
   }
 
   window.requestAnimationFrame(loop);
@@ -103,12 +109,14 @@ Game.prototype.checkOffScreen = function() {
     const isOffScreen = note.checkOffScreen(note);
     if(isOffScreen){
       this.notes1.splice(index, 1);
+      this.streak = 0;
     }
   })
   this.notes2.forEach(( note, index) => {
     const isOffScreen = note.checkOffScreen(note);
     if(isOffScreen){
       this.notes2.splice(index, 1);
+      this.streak = 0;
     }
   })
 }
