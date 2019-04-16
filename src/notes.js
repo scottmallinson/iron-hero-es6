@@ -23,6 +23,5 @@ Note.prototype.update = function() {
 
 Note.prototype.checkOffScreen = function() {
   const offScreen = this.y > this.canvas.height;
-  console.log(offScreen);
   return offScreen;
 }

@@ -12,6 +12,7 @@ function Game(canvas, audio){
   this.audio = audio;
   this.duration = audio.duration;
   this.score = 0; // UPDATE SCORE
+  this.streak = 0;
 };
 
 Game.prototype.startLoop = function() {
@@ -36,7 +37,7 @@ Game.prototype.startLoop = function() {
     this.clearCanvas();
     this.updateCanvas();
     this.drawCanvas();
-    // this.checkOffScreen();
+    //this.checkOffScreen();
     
     //this.checkCollisions();
     if (this.gameOver === false) {
@@ -75,6 +76,16 @@ Game.prototype.drawCanvas = function() {
   // DRAW COLLISION AREA
   this.ctx.fillStyle = "orange";
   this.ctx.fillRect(0, this.canvas.height - 150, this.canvas.width, 100);
+  // DISPLAY SCORE
+  this.ctx.font = '18px sans-serif';
+  this.ctx.textAlign = 'right';
+  this.ctx.fillStyle = 'black';
+  this.ctx.fillText(`Score: ${this.score}`, this.canvas.width - 50, 30);
+  // DISPLAY STREAK
+  this.ctx.font = '18px sans-serif';
+  this.ctx.textAlign = 'right';
+  this.ctx.fillStyle = 'black';
+  this.ctx.fillText(`Streak: ${this.streak}`, this.canvas.width - 50, 50);
 
   this.playerOne.draw();
   this.playerTwo.draw();
@@ -88,14 +99,14 @@ Game.prototype.drawCanvas = function() {
 
 Game.prototype.checkOffScreen = function() {
   this.notes1.forEach(( note, index) => {
-    const isOffScreen = this.note.checkOffScreen(note);
+    const isOffScreen = this.notes1.checkOffScreen(note);
     if(isOffScreen){
       this.notes1.splice(index, 1);
       console.log('OFF SCREEN!');
     }
   })
   this.notes2.forEach(( note, index) => {
-    const isOffScreen = this.note.checkOffScreen(note);
+    const isOffScreen = this.notes2.checkOffScreen(note);
     if(isOffScreen){
       this.notes2.splice(index, 1);
       console.log('OFF SCREEN!');
@@ -103,57 +114,38 @@ Game.prototype.checkOffScreen = function() {
   })
 }
 
-Game.prototype.checkCollisions = function() {
-  this.notes1.forEach((note, index) => {
-    const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
-    // const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
-    if(isCollidingTwo){
-      this.notes1.splice(index, 1);
-      console.log('COLLIDED!');
-    }
-  });
-  this.notes2.forEach((note, index) => {
-    // const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
-    const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
-    if(isCollidingTwo){
-      this.notes2.splice(index, 1);
-      console.log('COLLIDED!');
-    }
-  });
-}
-
-Game.prototype.checkKeyPressCollisions = function(keyPressEvent) { // CHECK IF KEYPRESSES MATCH WHEN NOTE IS WITHIN COLLISION AREA
-  this.notes1.forEach((note, index) => {
-    if ((note.y > 488) && (note.y < 538)) {
-      const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
-      if(isCollidingOne){
-        console.log('HIT!');
-        // console.log(note.y);
-      } else {
-        console.log('MISS!');
-        // LOGIC TO END STREAK
+Game.prototype.checkKeyPressCollisions = function(keyPressEvent) {
+  // CHECK IF KEYPRESSES MATCH WHEN NOTE IS WITHIN COLLISION AREA
+  let anyNoteHit = false;
+  if (keyPressEvent.keyCode == 37) {
+    this.notes1.forEach((note, index) => {
+      if ((note.y > 488) && (note.y < 538)) {
+        const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
+        if(isCollidingOne){
+          this.score = this.score + 10 * this.streak;
+          this.streak += 1;
+          anyNoteHit = true;
+          this.notes1.splice(index, 1);
+        }
+      } 
+    });
+  } else if (keyPressEvent.keyCode == 39) {
+    this.notes2.forEach((note, index) => {
+      if ((note.y > 488) && (note.y < 538)) {
+        const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
+        if(isCollidingTwo){
+          this.score = this.score + 10 * this.streak;
+          this.streak += 1;
+          anyNoteHit = true;
+          this.notes2.splice(index, 1);
+        }
       }
-    } else {
-      // console.log('MISS!');
-      // LOGIC TO END STREAK
-    }
-  });
-  this.notes2.forEach((note, index) => {
-    if ((note.y > 488) && (note.y < 538)) {
-      // const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
-      const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
-      if(isCollidingTwo){
-        console.log('HIT!');
-        // console.log(note.y);
-      } else {
-        console.log('MISS!');
-        // LOGIC TO END STREAK
-      }
-    } else {
-      // console.log('MISS!');
-      // LOGIC TO END STREAK
-    }
-  });
+    });
+  }
+  // IF NO NOTES ARE HIT, RESET THE STREAK TO ZERO
+  if (!anyNoteHit) {
+    this.streak = 0;
+  }
 }
   
 Game.prototype.setGameOverCallback = function(buildGameOverScreen) {
