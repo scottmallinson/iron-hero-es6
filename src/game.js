@@ -28,10 +28,10 @@ Game.prototype.startLoop = function() {
 
   let seconds = 0;
 
-  setInterval(function(){
-    seconds += 1;
-    console.log(seconds);
-  }, 1000);
+  // let playback = setInterval(function(){
+  //   seconds += 1;
+  //   console.log(seconds);
+  // }, 1000);
 
   const loop = () => {
 
@@ -46,18 +46,27 @@ Game.prototype.startLoop = function() {
     this.updateCanvas();
     this.drawCanvas();
     this.checkOffScreen();
+    this.checkDuration();
     
     if (this.gameOver === false) {
       window.requestAnimationFrame(loop);
     }
 
-    // if (seconds >= this.audio.duration) {
+    // if (this.audio.ended) {
+    //   clearInterval(playback);
     //   window.requestAnimationFrame(loop);
     // }
   }
 
   window.requestAnimationFrame(loop);
 
+}
+
+Game.prototype.checkDuration = function() {
+  if(this.audio.ended){
+    this.gameOver = true;
+    this.buildGameOverScreen(this.score);
+  }
 }
 
 Game.prototype.clearCanvas = function() {

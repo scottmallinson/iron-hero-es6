@@ -48,10 +48,11 @@ function main() {
     });
   }
 
-  function buildGameOverScreen(){
+  function buildGameOverScreen(score){
     const gameOverScreen = buildDom(`
       <section>
         <h1>Game Over!</h1>
+        <p>You scored ${score}
       </section>
       <button class="restart-button">Restart</button>
     `);
