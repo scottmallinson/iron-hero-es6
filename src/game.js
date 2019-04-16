@@ -20,18 +20,7 @@ Game.prototype.startLoop = function() {
   this.playerOne = new Player(this.canvas, 'blue', (this.canvas.width / 2) -50);
   this.playerTwo = new Player(this.canvas, 'green', (this.canvas.width / 2) + 50);
 
-  this.audio.addEventListener('canplaythrough', (event) => {
-    setTimeout(function(){
-      document.querySelector('audio').play();
-    }, 5000)
-  });
-
-  let seconds = 0;
-
-  // let playback = setInterval(function(){
-  //   seconds += 1;
-  //   console.log(seconds);
-  // }, 1000);
+  this.playAudio();
 
   const loop = () => {
 
@@ -51,15 +40,18 @@ Game.prototype.startLoop = function() {
     if (this.gameOver === false) {
       window.requestAnimationFrame(loop);
     }
-
-    // if (this.audio.ended) {
-    //   clearInterval(playback);
-    //   window.requestAnimationFrame(loop);
-    // }
   }
 
   window.requestAnimationFrame(loop);
 
+}
+
+Game.prototype.playAudio = function() {
+  this.audio.addEventListener('canplaythrough', (event) => {
+    setTimeout(function(){
+      document.querySelector('audio').play();
+    }, 5000)
+  });
 }
 
 Game.prototype.checkDuration = function() {

@@ -25,7 +25,7 @@ function main() {
   function buildGameScreen(){
     const gameScreen = buildDom(`
       <section class="game-container">
-        <audio src="./audio/track.m4a" preload="auto"></audio>
+        <audio src="./audio/music.mp3" preload="auto"></audio>
         <canvas></canvas>
       </section>
     `);
