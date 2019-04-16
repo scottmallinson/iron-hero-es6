@@ -20,7 +20,8 @@ To build a playable game that can be interacted with through the keyboard, that 
 
 
 ## Data structure
-```Game(){
+```javascript
+Game(){
   this.canvas;
   this.ctx;
   this.duration;
@@ -87,7 +88,8 @@ Drums(){
 
 Drums.prototype.render(){
   // displays the drum notes
-}```
+}
+```
 
 
 ## States and State Transitions
