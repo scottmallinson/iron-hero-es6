@@ -37,7 +37,7 @@ Game.prototype.startLoop = function() {
     this.clearCanvas();
     this.updateCanvas();
     this.drawCanvas();
-    //this.checkOffScreen();
+    this.checkOffScreen();
     
     //this.checkCollisions();
     if (this.gameOver === false) {
@@ -98,18 +98,17 @@ Game.prototype.drawCanvas = function() {
 }
 
 Game.prototype.checkOffScreen = function() {
+  // REMOVE NOTES IF THEY HAVEN'T BEEN HIT AND EXIT THE PLAYABLE AREA
   this.notes1.forEach(( note, index) => {
-    const isOffScreen = this.notes1.checkOffScreen(note);
+    const isOffScreen = note.checkOffScreen(note);
     if(isOffScreen){
       this.notes1.splice(index, 1);
-      console.log('OFF SCREEN!');
     }
   })
   this.notes2.forEach(( note, index) => {
-    const isOffScreen = this.notes2.checkOffScreen(note);
+    const isOffScreen = note.checkOffScreen(note);
     if(isOffScreen){
       this.notes2.splice(index, 1);
-      console.log('OFF SCREEN!');
     }
   })
 }
