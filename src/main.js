@@ -14,6 +14,7 @@ function main() {
     const splashScreen = buildDom(`
       <section>
         <h1>Iron Hero</h1>
+        <p>Using the <kbd>←</kbd> and <kbd>→</kbd> keys, try to hit the notes in time.</p>
         <button class="start-button">Start</button>
       </section>
     `);
