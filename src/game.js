@@ -1,7 +1,7 @@
 'use strict';
 console.log('GAME CONNECTED');
 
-function Game(canvas){
+function Game(canvas, audio){
   this.playerOne = null;
   this.playerTwo = null;
   this.notes1 = [];
@@ -9,13 +9,20 @@ function Game(canvas){
   this.canvas = canvas;
   this.ctx = this.canvas.getContext('2d');
   this.gameOver = false;
-  this.duration = 180;
+  this.audio = audio;
+  this.duration = audio.duration;
+  this.score = 0; // UPDATE SCORE
 };
 
 Game.prototype.startLoop = function() {
   
   this.playerOne = new Player(this.canvas, 'blue', (this.canvas.width / 2) -50);
   this.playerTwo = new Player(this.canvas, 'green', (this.canvas.width / 2) + 50);
+
+  this.audio.addEventListener('canplaythrough', (event) => {
+    //this.audio.play();
+  });
+  let timer = 0;
 
   const loop = () => {
 
@@ -32,9 +39,13 @@ Game.prototype.startLoop = function() {
     // this.checkOffScreen();
     
     //this.checkCollisions();
-    if (this.gameOver === false){
+    if (this.gameOver === false) {
       window.requestAnimationFrame(loop);
     }
+    
+    //console.log(this.audio.ended);
+    timer = timer + 1;
+    //console.log(timer);
 
   }
 
@@ -95,16 +106,16 @@ Game.prototype.checkOffScreen = function() {
 Game.prototype.checkCollisions = function() {
   this.notes1.forEach((note, index) => {
     const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
-    const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
-    if(isCollidingOne || isCollidingTwo){
+    // const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
+    if(isCollidingTwo){
       this.notes1.splice(index, 1);
       console.log('COLLIDED!');
     }
   });
   this.notes2.forEach((note, index) => {
-    const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
+    // const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
     const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
-    if(isCollidingOne || isCollidingTwo){
+    if(isCollidingTwo){
       this.notes2.splice(index, 1);
       console.log('COLLIDED!');
     }
@@ -113,39 +124,34 @@ Game.prototype.checkCollisions = function() {
 
 Game.prototype.checkKeyPressCollisions = function(keyPressEvent) { // CHECK IF KEYPRESSES MATCH WHEN NOTE IS WITHIN COLLISION AREA
   this.notes1.forEach((note, index) => {
-    const hitAreaMinY = this.canvas.height - 125;
-    const hitAreaMaxY = this.canvas.height - 75;
-    // console.log('hitAreaMinY: ', hitAreaMinY); // 488
-    // console.log('hitAreaMaxY: ', hitAreaMaxY); // 538
     if ((note.y > 488) && (note.y < 538)) {
       const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
-      const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
-      if(isCollidingOne || isCollidingTwo){
+      if(isCollidingOne){
         console.log('HIT!');
         // console.log(note.y);
       } else {
         console.log('MISS!');
+        // LOGIC TO END STREAK
       }
     } else {
       // console.log('MISS!');
+      // LOGIC TO END STREAK
     }
   });
   this.notes2.forEach((note, index) => {
-    const hitAreaMinY = this.canvas.height - 125;
-    const hitAreaMaxY = this.canvas.height - 75;
-    // console.log('hitAreaMinY: ', hitAreaMinY); // 488
-    // console.log('hitAreaMaxY: ', hitAreaMaxY); // 538
     if ((note.y > 488) && (note.y < 538)) {
-      const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
+      // const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
       const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
-      if(isCollidingOne || isCollidingTwo){
+      if(isCollidingTwo){
         console.log('HIT!');
         // console.log(note.y);
       } else {
         console.log('MISS!');
+        // LOGIC TO END STREAK
       }
     } else {
       // console.log('MISS!');
+      // LOGIC TO END STREAK
     }
   });
 }

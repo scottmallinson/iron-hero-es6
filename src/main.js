@@ -13,7 +13,7 @@ function main() {
   function buildSplashScreen(){
     const splashScreen = buildDom(`
       <section>
-        <h1>Game name</h1>
+        <h1>Iron Hero</h1>
         <button class="start-button">Start</button>
       </section>
     `);
@@ -25,18 +25,21 @@ function main() {
   function buildGameScreen(){
     const gameScreen = buildDom(`
       <section class="game-container">
+        <audio src="./audio/track.m4a" preload="auto"></audio>
         <canvas></canvas>
       </section>
     `);
 
     const gameContainerElement = document.querySelector('.game-container');
+    const audioElement = document.querySelector('audio');
     const width = gameContainerElement.offsetWidth;
     const height = gameContainerElement.offsetHeight;
     const canvasElement = document.querySelector('canvas');
     canvasElement.setAttribute('width', width);
     canvasElement.setAttribute('height', height);
 
-    const game = new Game(canvasElement);
+    const game = new Game(canvasElement, audioElement);
+    
     game.startLoop();
     game.setGameOverCallback(buildGameOverScreen);
 

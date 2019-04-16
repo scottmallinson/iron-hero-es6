@@ -2,11 +2,10 @@
 console.log('PLAYER CONNECTED');
 
 function Player(canvas, color, x){
-  this.lives = 3;
   this.size = 50;
   this.canvas = canvas;
   this.ctx = this.canvas.getContext('2d');
-  this.speed = 3;
+  this.speed = 4;
   this.direction = 0;
   this.x = x;
   this.y = this.canvas.height - 100;
@@ -23,10 +22,6 @@ Player.prototype.draw = function() {
 
 Player.prototype.update = function() {
   //this.x = this.x + this.direction * this.speed;
-}
-
-Player.prototype.setLives = function() {
-  this.lives --;
 }
 
 Player.prototype.checkCollisionWithNote = function(note) {
