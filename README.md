@@ -20,7 +20,7 @@ To build a playable game that can be interacted with through the keyboard, that 
 
 
 ## Data structure
-Game(){
+```Game(){
   this.canvas;
   this.ctx;
   this.duration;
@@ -87,7 +87,7 @@ Drums(){
 
 Drums.prototype.render(){
   // displays the drum notes
-}
+}```
 
 
 ## States and State Transitions
@@ -145,9 +145,8 @@ Task definition in order of priority
 
 
 ### Git
-URls for the project repo and deploy
-[Link Repo](https://github.com/scottmallinson/module-1-project)
-[Link Deploy](http://github.com)
+[Game repository](https://github.com/scottmallinson/module-1-project)
+[Deployed game](https://scottmallinson.github.io/module-1-project/)
 
 
 ### Slides
