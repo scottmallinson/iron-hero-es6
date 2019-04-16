@@ -147,10 +147,9 @@ Task definition in order of priority
 
 
 ### Git
-[Game repository](https://github.com/scottmallinson/module-1-project)
+[Game repository](https://github.com/scottmallinson/module-1-project)\
 [Deployed game](https://scottmallinson.github.io/module-1-project/)
 
 
 ### Slides
-URls for the project presentation (slides)
-[Link Slides.com](http://slides.com)
+[Project presentation](https://docs.google.com/presentation/d/12bk0cQzcibYP0jwJbc69D2pPs8JRfBPe4sWPyET3if4/edit?usp=sharing)
