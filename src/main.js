@@ -26,7 +26,7 @@ function main() {
     const gameScreen = buildDom(`
       <section class="game-container">
         <audio src="./audio/music.mp3" preload="auto"></audio>
-        <canvas></canvas>
+        <canvas width="728" height="609"></canvas>
       </section>
     `);
 
@@ -54,7 +54,7 @@ function main() {
         <h1>Game Over!</h1>
         <p>You scored ${score}
       </section>
-      <button class="restart-button">Restart</button>
+      <button class="restart-button">Play again</button>
     `);
 
     const restartButton = document.querySelector('.restart-button');
