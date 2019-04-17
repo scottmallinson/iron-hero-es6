@@ -10,30 +10,50 @@ function Game(canvas, audioElement){
   this.ctx = this.canvas.getContext('2d');
   this.gameOver = false;
   this.audio = audioElement;
-  this.duration = audioElement.duration;
+  this.elapsedTime = 0;
   this.score = 0;
   this.streak = 0;
 };
 
 Game.prototype.startLoop = function() {
   
-  this.playerOne = new Player(this.canvas, 'blue', (this.canvas.width / 2) -50);
+  this.playerOne = new Player(this.canvas, 'blue', (this.canvas.width / 2) - 50);
   this.playerTwo = new Player(this.canvas, 'green', (this.canvas.width / 2) + 50);
 
-  this.playAudio();
+  var d = new Date();
+  console.log('Start: ', d.getUTCMinutes()+':'+d.getUTCSeconds()+':'+d.getUTCMilliseconds());
 
+  Game.prototype.recordKeyPresses = function(){
+    var nd = new Date();
+    console.log(nd.getUTCMinutes()+':'+nd.getUTCSeconds()+':'+nd.getUTCMilliseconds());
+  }
+
+  this.startTimer();
+  
   const loop = () => {
+    guitar.forEach((element, index) => {
+      
+      if(element - 45 < this.elapsedTime && element + 45 > this.elapsedTime ){
+        this.notes1.push(new Note(this.canvas, 'red', (this.canvas.width / 2) - 65, element));
+      }
+    });
+    drums.forEach((element,index) => {
+      if(element - 35 < this.elapsedTime && element + 35 > this.elapsedTime ){
+        this.notes2.push(new Note(this.canvas, 'yellow', (this.canvas.width / 2)+ 35, element));
+      }
+    });
 
-    if (Math.random() > 0.99){
-      this.notes1.push(new Note(this.canvas, 'red', (this.canvas.width / 2) - 65));
-    }
-    if (Math.random() > 0.99){
-      this.notes2.push(new Note(this.canvas, 'yellow', (this.canvas.width / 2) + 35));
-    }
+
+    // if (Math.random() > 0.99){
+    //   this.notes1.push(new Note(this.canvas, 'red', (this.canvas.width / 2) - 65));
+    // }
+    // if (Math.random() > 0.99){
+    //   this.notes2.push(new Note(this.canvas, 'yellow', (this.canvas.width / 2) + 35));
+    // }
 
     this.clearCanvas();
     this.updateCanvas();
-    this.drawCanvas();
+    this.drawCanvas(this.elapsedTime);
     this.checkOffScreen();
     this.checkDuration();
     
@@ -44,6 +64,14 @@ Game.prototype.startLoop = function() {
 
   window.requestAnimationFrame(loop);
 
+}
+
+Game.prototype.startTimer = function() {
+  this.elapsedTime = 7057;
+  setInterval(function() {
+    this.elapsedTime++
+    this.playAudio();
+  }.bind(this), 1);
 }
 
 Game.prototype.playAudio = function() {
@@ -79,10 +107,11 @@ Game.prototype.updateCanvas = function() {
 Game.prototype.drawCanvas = function() {
   // DRAW FRET BOARD
   this.ctx.fillStyle = "purple";
-  this.ctx.fillRect(this.canvas.width/2 - 100, 0, 200, this.canvas.height);
+  this.ctx.fillRect(260, 0, 200, this.canvas.height);
   // DRAW COLLISION AREA
   this.ctx.fillStyle = "orange";
-  this.ctx.fillRect(0, this.canvas.height - 150, this.canvas.width, 100);
+  this.ctx.fillRect(0, 426, this.canvas.width, 100);
+
   // DISPLAY SCORE
   this.ctx.font = '16px sans-serif';
   this.ctx.textAlign = 'right';
@@ -96,8 +125,8 @@ Game.prototype.drawCanvas = function() {
 
   this.playerOne.draw();
   this.playerTwo.draw();
-  this.notes1.forEach(function(note){
-    note.draw();
+  this.notes1.forEach((note) => {
+    note.draw(this.elapsedTime);
   })
   this.notes2.forEach(function(note){
     note.draw();
@@ -127,9 +156,10 @@ Game.prototype.checkKeyPressCollisions = function(keyPressEvent) {
   let anyNoteHit = false;
   if (keyPressEvent.keyCode == 37) {
     this.notes1.forEach((note, index) => {
-      if ((note.y > 488) && (note.y < 538)) {
+      if ((note.y > 451) && (note.y < 501)) {
         const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
         if(isCollidingOne){
+
           this.score = this.score + 10 * this.streak;
           this.streak += 1;
           anyNoteHit = true;
@@ -139,7 +169,7 @@ Game.prototype.checkKeyPressCollisions = function(keyPressEvent) {
     });
   } else if (keyPressEvent.keyCode == 39) {
     this.notes2.forEach((note, index) => {
-      if ((note.y > 488) && (note.y < 538)) {
+      if ((note.y > 451) && (note.y < 501)) {
         const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
         if(isCollidingTwo){
           this.score = this.score + 10 * this.streak;

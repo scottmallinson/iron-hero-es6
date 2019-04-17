@@ -8,7 +8,7 @@ function Player(canvas, color, x){
   this.speed = 4;
   this.direction = 0;
   this.x = x;
-  this.y = this.canvas.height - 100;
+  this.y = 476;
   this.score = 0;
   this.color = color;
 }
@@ -17,7 +17,6 @@ Player.prototype.draw = function() {
   // left key
   this.ctx.fillStyle = this.color;
   this.ctx.fillRect(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
-
 }
 
 Player.prototype.update = function() {

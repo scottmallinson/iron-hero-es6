@@ -26,8 +26,8 @@ function main() {
   function buildGameScreen(){
     const gameScreen = buildDom(`
       <section class="game-container">
-        <audio src="./audio/music.mp3" preload="auto"></audio>
-        <canvas width="728" height="609"></canvas>
+        <audio src="./audio/track.m4a" preload="auto"></audio>
+        <canvas width="720" height="576"></canvas>
       </section>
     `);
 
@@ -46,6 +46,7 @@ function main() {
 
     document.addEventListener('keydown', function(event){
         game.checkKeyPressCollisions(event);
+        //game.recordKeyPresses(event);
     });
   }
 
