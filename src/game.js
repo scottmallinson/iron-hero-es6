@@ -38,24 +38,9 @@ Game.prototype.startLoop = function() {
     setTimeout(()=>{this.handleStartNotesDrums(this.canvas)}, drums[i]);
   }
 
-  // var d = new Date();
-  // console.log('Start: ', d.getUTCMinutes()+':'+d.getUTCSeconds()+':'+d.getUTCMilliseconds());
-
-  // Game.prototype.recordKeyPresses = function(){
-  //   var nd = new Date();
-  //   console.log(nd.getUTCMinutes()+':'+nd.getUTCSeconds()+':'+nd.getUTCMilliseconds());
-  // }
-
   this.startTimer();
   
   const loop = () => {
-
-    // if (Math.random() > 0.99){
-    //   this.notes1.push(new Note(this.canvas, 'red', (this.canvas.width / 2) - 65));
-    // }
-    // if (Math.random() > 0.99){
-    //   this.notes2.push(new Note(this.canvas, 'yellow', (this.canvas.width / 2) + 35));
-    // }
 
     this.clearCanvas();
     this.updateCanvas();
@@ -84,12 +69,12 @@ Game.prototype.playAudio = function() {
   this.audio.addEventListener('canplaythrough', (event) => {
     setTimeout(function(){
       document.querySelector('audio').play();
-    }, 5000)
+    }, 5500)
   });
 }
 
 Game.prototype.checkDuration = function() {
-  if(this.audio.ended){
+  if(this.elapsedTime >= 19000){
     this.gameOver = true;
     this.buildGameOverScreen(this.score);
   }

@@ -46,7 +46,6 @@ function main() {
 
     document.addEventListener('keydown', function(event){
         game.checkKeyPressCollisions(event);
-        //game.recordKeyPresses(event);
     });
   }
 
