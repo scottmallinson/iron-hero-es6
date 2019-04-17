@@ -148,8 +148,11 @@ Game.prototype.checkKeyPressCollisions = function(keyPressEvent) {
       if ((note.y > 451) && (note.y < 501)) {
         const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
         if(isCollidingOne){
-
-          this.score = this.score + 10 * this.streak;
+          if (this.streak != 0){
+            this.score = this.score + 10 * this.streak;
+          } else {
+            this.score = this.score + 10;
+          }
           this.streak += 1;
           anyNoteHit = true;
           this.notes1.splice(index, 1);
@@ -161,7 +164,11 @@ Game.prototype.checkKeyPressCollisions = function(keyPressEvent) {
       if ((note.y > 451) && (note.y < 501)) {
         const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
         if(isCollidingTwo){
-          this.score = this.score + 10 * this.streak;
+          if (this.streak != 0){
+            this.score = this.score + 10 * this.streak;
+          } else {
+            this.score = this.score + 10;
+          }
           this.streak += 1;
           anyNoteHit = true;
           this.notes2.splice(index, 1);
