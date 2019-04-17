@@ -15,34 +15,40 @@ function Game(canvas, audioElement){
   this.streak = 0;
 };
 
+Game.prototype.handleStartNotesGuitar = function(canvas) {
+  let note = new Note(canvas, 'red', (this.canvas.width / 2) - 65);
+  this.notes1.push(note);    
+}
+
+Game.prototype.handleStartNotesDrums = function(canvas) {
+  let note = new Note(canvas, 'yellow', (canvas.width / 2)+ 35);
+  this.notes2.push(note);    
+}
+
 Game.prototype.startLoop = function() {
   
   this.playerOne = new Player(this.canvas, 'blue', (this.canvas.width / 2) - 50);
   this.playerTwo = new Player(this.canvas, 'green', (this.canvas.width / 2) + 50);
-
-  var d = new Date();
-  console.log('Start: ', d.getUTCMinutes()+':'+d.getUTCSeconds()+':'+d.getUTCMilliseconds());
-
-  Game.prototype.recordKeyPresses = function(){
-    var nd = new Date();
-    console.log(nd.getUTCMinutes()+':'+nd.getUTCSeconds()+':'+nd.getUTCMilliseconds());
+  
+  for (let j = 0; j < guitar.length; j++){
+    setTimeout(()=>{this.handleStartNotesGuitar(this.canvas)}, guitar[j]);
   }
+  
+  for (let i = 0; i < drums.length; i++){
+    setTimeout(()=>{this.handleStartNotesDrums(this.canvas)}, drums[i]);
+  }
+
+  // var d = new Date();
+  // console.log('Start: ', d.getUTCMinutes()+':'+d.getUTCSeconds()+':'+d.getUTCMilliseconds());
+
+  // Game.prototype.recordKeyPresses = function(){
+  //   var nd = new Date();
+  //   console.log(nd.getUTCMinutes()+':'+nd.getUTCSeconds()+':'+nd.getUTCMilliseconds());
+  // }
 
   this.startTimer();
   
   const loop = () => {
-    guitar.forEach((element, index) => {
-      
-      if(element - 45 < this.elapsedTime && element + 45 > this.elapsedTime ){
-        this.notes1.push(new Note(this.canvas, 'red', (this.canvas.width / 2) - 65, element));
-      }
-    });
-    drums.forEach((element,index) => {
-      if(element - 35 < this.elapsedTime && element + 35 > this.elapsedTime ){
-        this.notes2.push(new Note(this.canvas, 'yellow', (this.canvas.width / 2)+ 35, element));
-      }
-    });
-
 
     // if (Math.random() > 0.99){
     //   this.notes1.push(new Note(this.canvas, 'red', (this.canvas.width / 2) - 65));
@@ -106,10 +112,10 @@ Game.prototype.updateCanvas = function() {
 
 Game.prototype.drawCanvas = function() {
   // DRAW FRET BOARD
-  this.ctx.fillStyle = "purple";
+  this.ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
   this.ctx.fillRect(260, 0, 200, this.canvas.height);
   // DRAW COLLISION AREA
-  this.ctx.fillStyle = "orange";
+  this.ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
   this.ctx.fillRect(0, 426, this.canvas.width, 100);
 
   // DISPLAY SCORE
@@ -126,9 +132,9 @@ Game.prototype.drawCanvas = function() {
   this.playerOne.draw();
   this.playerTwo.draw();
   this.notes1.forEach((note) => {
-    note.draw(this.elapsedTime);
+    note.draw();
   })
-  this.notes2.forEach(function(note){
+  this.notes2.forEach(function(note, index){
     note.draw();
   })
 }

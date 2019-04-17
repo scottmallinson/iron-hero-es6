@@ -15,7 +15,7 @@ function Note(canvas, color, x){
 Note.prototype.draw = function() {
 
   this.ctx.fillStyle = this.color;
-  this.ctx.fillRect(this.x, this.y - this.size / 2, this.size, this.size);
+  this.ctx.fillRect(this.x, this.y - this.size / 2, this.size, 5);
 }
 
 Note.prototype.update = function() {
