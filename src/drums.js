@@ -1,3 +1,6 @@
+'use strict';
+console.log('DRUMS CONNECTED');
+
 const drums = [
   0,
   470,
