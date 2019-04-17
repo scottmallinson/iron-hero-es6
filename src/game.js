@@ -85,8 +85,6 @@ Game.prototype.clearCanvas = function() {
 }
 
 Game.prototype.updateCanvas = function() {
-  this.playerOne.update();
-  this.playerTwo.update();
   this.notes1.forEach(function(note){
     note.update();
   });
