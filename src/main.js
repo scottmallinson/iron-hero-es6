@@ -1,5 +1,4 @@
 'use strict';
-console.log('MAIN CONNECTED');
 
 function main() {
 
@@ -65,7 +64,6 @@ function main() {
       winningScore = player1score;
     }
     let highScore = this.getHighScore(winningScore);
-    console.log(highScore);
     const gameOverScreen = buildDom(`
       <section>
         <h1>${winningPlayer}</h1>

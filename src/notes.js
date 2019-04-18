@@ -1,5 +1,4 @@
 'use strict';
-console.log('NOTE CONNECTED');
 
 function Note(canvas, color, x){
   this.speed = 1;

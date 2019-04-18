@@ -1,5 +1,4 @@
 'use strict';
-console.log('PLAYER CONNECTED');
 
 function Player(canvas, color, x){
   this.size = 50;

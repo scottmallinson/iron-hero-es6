@@ -1,5 +1,4 @@
 'use strict';
-console.log('GAME CONNECTED');
 
 function Game(canvas, audioElement){
   this.playerOne = null;
@@ -68,17 +67,18 @@ Game.prototype.startTimer = function() {
   this.elapsedTime = 7057;
   setInterval(function() {
     this.elapsedTime++
-    //this.playAudio();
   }.bind(this), 1);
 }
 
 Game.prototype.playAudio = function() {
-    setTimeout(function(){
-      document.querySelector('audio').play();
-    }, 5500);
+  // DELAY THE AUDIO PLAYBACK TO ALLOW THE NOTES TO APPEAR IN PLACE
+  setTimeout(function(){
+    document.querySelector('audio').play();
+  }, 5500);
 }
 
 Game.prototype.checkDuration = function() {
+  // CHECK IF THE DURATION HAS ELAPSED, AND IF SO, MOVE TO THE GAMEOVER SCREEN
   if(this.elapsedTime >= 19000){
     this.gameOver = true;
     this.buildGameOverScreen(this.player1score, this.player2score);
@@ -86,10 +86,12 @@ Game.prototype.checkDuration = function() {
 }
 
 Game.prototype.clearCanvas = function() {
+  // CLEAR THE CANVAS EACH LOOP
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 }
 
 Game.prototype.updateCanvas = function() {
+  // UPDATE THE POSITION OF THE NOTES
   this.notes1.forEach(function(note){
     note.update();
   });
@@ -105,8 +107,7 @@ Game.prototype.drawCanvas = function() {
   // DRAW COLLISION AREA
   this.ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
   this.ctx.fillRect(0, 426, this.canvas.width, 100);
-
-  // DISPLAY PLAYER1
+  // DISPLAY PLAYER1 TEXT
   this.ctx.font = '16px sans-serif';
   this.ctx.textAlign = 'left';
   this.ctx.fillStyle = 'white';
@@ -121,8 +122,7 @@ Game.prototype.drawCanvas = function() {
   this.ctx.textAlign = 'left';
   this.ctx.fillStyle = 'white';
   this.ctx.fillText(`Streak: ${this.player1streak}`, 10, 55);
-  
-  // DISPLAY PLAYER2
+  // DISPLAY PLAYER2 TEXT
   this.ctx.font = '16px sans-serif';
   this.ctx.textAlign = 'right';
   this.ctx.fillStyle = 'white';
@@ -137,27 +137,29 @@ Game.prototype.drawCanvas = function() {
   this.ctx.textAlign = 'right';
   this.ctx.fillStyle = 'white';
   this.ctx.fillText(`Streak: ${this.player2streak}`, this.canvas.width - 10, 55);
-
+  // DISPLAY PLAYER1
   this.playerOne.draw();
+  // DISPLAY PLAYER2
   this.playerTwo.draw();
+  // DISPLAY THE NOTES
   this.notes1.forEach((note) => {
     note.draw();
   })
-  this.notes2.forEach(function(note, index){
+  this.notes2.forEach((note) =>{
     note.draw();
   })
 }
 
 Game.prototype.checkOffScreen = function() {
   // REMOVE NOTES IF THEY HAVEN'T BEEN HIT AND EXIT THE PLAYABLE AREA
-  this.notes1.forEach(( note, index) => {
+  this.notes1.forEach((note, index) => {
     const isOffScreen = note.checkOffScreen(note);
     if(isOffScreen){
       this.notes1.splice(index, 1);
       this.streak = 0;
     }
   })
-  this.notes2.forEach(( note, index) => {
+  this.notes2.forEach((note, index) => {
     const isOffScreen = note.checkOffScreen(note);
     if(isOffScreen){
       this.notes2.splice(index, 1);
@@ -171,14 +173,18 @@ Game.prototype.getHighScore = function(gameWinningScore) {
   if(!gameWinningScore && currentHighScore){
     return currentHighScore;
   }
+  // CHECK IF A HIGH SCORE HAS BEEN SET PREVIOUSLY
   if(currentHighScore){
+    // IF THE LATEST HIGH SCORE IS HIGHER THAN THE SAVED HIGH SCORE, OVERWRITE IT
     if(gameWinningScore > currentHighScore){
       window.localStorage.setItem('highScore',gameWinningScore);
       return gameWinningScore;
     } else {
+    // OTHERWISE RETURN THE SAVED HIGH SCORE
       return currentHighScore;
     }
   } else {
+    // IF NO HIGH SCORE HAS BEEN SAVED, SAVE THE LATEST HIGH SCORE
     window.localStorage.setItem('highScore',gameWinningScore);
     return gameWinningScore;
   }
@@ -191,8 +197,9 @@ Game.prototype.checkKeyPressCollisions = function(keyPressEvent) {
   if (keyPressEvent.keyCode == 37) {
     this.notes1.forEach((note, index) => {
       if ((note.y > 451) && (note.y < 501)) {
+        // DETECT IF NOTE IS WITHIN COLLISION BOUNDARIES
         const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
-        if(isCollidingOne){
+        if (isCollidingOne) {
           if (this.player1streak != 0){
             this.player1score = this.player1score + 10 * this.player1streak;
           } else {
@@ -207,8 +214,9 @@ Game.prototype.checkKeyPressCollisions = function(keyPressEvent) {
   } else if (keyPressEvent.keyCode == 39) {
     this.notes2.forEach((note, index) => {
       if ((note.y > 451) && (note.y < 501)) {
+        // DETECT IF NOTE IS WITHIN COLLISION BOUNDARIES
         const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
-        if(isCollidingTwo){
+        if (isCollidingTwo) {
           if (this.player2streak != 0){
             this.player2score = this.player2score + 10 * this.player2streak;
           } else {

@@ -1,5 +1,4 @@
 'use strict';
-console.log('GUITAR CONNECTED');
 
 const guitar = [
   792,
