@@ -156,14 +156,14 @@ Game.prototype.checkOffScreen = function() {
     const isOffScreen = note.checkOffScreen(note);
     if(isOffScreen){
       this.notes1.splice(index, 1);
-      this.streak = 0;
+      this.player1streak = 0;
     }
   })
   this.notes2.forEach((note, index) => {
     const isOffScreen = note.checkOffScreen(note);
     if(isOffScreen){
       this.notes2.splice(index, 1);
-      this.streak = 0;
+      this.player2streak = 0;
     }
   })
 }
