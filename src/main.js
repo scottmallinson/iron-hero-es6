@@ -26,7 +26,7 @@ function main() {
   function buildGameScreen(){
     const gameScreen = buildDom(`
       <section class="game-container">
-        <audio src="./audio/track.m4a" preload="auto"></audio>
+      <audio src="./audio/track.m4a" preload="auto"></audio>
         <canvas width="720" height="576"></canvas>
       </section>
     `);
@@ -49,11 +49,22 @@ function main() {
     });
   }
 
-  function buildGameOverScreen(score){
+  function buildGameOverScreen(player1score, player2score){
+    let winningPlayer = '';
+    if (player1score > player2score){
+      winningPlayer = 'Player 1 wins!'
+    }
+    else if (player1score < player2score) {
+      winningPlayer = 'Player 2 wins!'
+    }
+    else {
+      winningPlayer = 'A draw!'
+    }
     const gameOverScreen = buildDom(`
       <section>
-        <h1>Game Over!</h1>
-        <p>You scored ${score}
+        <h1>${winningPlayer}</h1>
+        <p>Player 1 scored ${player1score}</p>
+        <p>Player 2 scored ${player2score}</p>
       </section>
       <button class="restart-button">Play again</button>
     `);

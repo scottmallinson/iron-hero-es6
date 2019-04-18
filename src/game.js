@@ -11,8 +11,10 @@ function Game(canvas, audioElement){
   this.gameOver = false;
   this.audio = audioElement;
   this.elapsedTime = 0;
-  this.score = 0;
-  this.streak = 0;
+  this.player1score = 0;
+  this.player2score = 0;
+  this.player1streak = 0;
+  this.player2streak = 0;
 };
 
 Game.prototype.handleStartNotesGuitar = function(canvas) {
@@ -38,22 +40,27 @@ Game.prototype.startLoop = function() {
     setTimeout(()=>{this.handleStartNotesDrums(this.canvas)}, drums[i]);
   }
 
-  this.startTimer();
-  
-  const loop = () => {
+  this.audio.addEventListener('canplaythrough', (event) => {
 
-    this.clearCanvas();
-    this.updateCanvas();
-    this.drawCanvas(this.elapsedTime);
-    this.checkOffScreen();
-    this.checkDuration();
+    this.startTimer();
+    this.playAudio();
     
-    if (this.gameOver === false) {
-      window.requestAnimationFrame(loop);
-    }
-  }
+    const loop = () => {
 
-  window.requestAnimationFrame(loop);
+      this.clearCanvas();
+      this.updateCanvas();
+      this.drawCanvas(this.elapsedTime);
+      this.checkOffScreen();
+      this.checkDuration();
+      
+      if (this.gameOver === false) {
+        window.requestAnimationFrame(loop);
+      }
+    }
+
+    window.requestAnimationFrame(loop);
+
+  });
 
 }
 
@@ -61,22 +68,20 @@ Game.prototype.startTimer = function() {
   this.elapsedTime = 7057;
   setInterval(function() {
     this.elapsedTime++
-    this.playAudio();
+    //this.playAudio();
   }.bind(this), 1);
 }
 
 Game.prototype.playAudio = function() {
-  this.audio.addEventListener('canplaythrough', (event) => {
     setTimeout(function(){
       document.querySelector('audio').play();
-    }, 5500)
-  });
+    }, 5500);
 }
 
 Game.prototype.checkDuration = function() {
   if(this.elapsedTime >= 19000){
     this.gameOver = true;
-    this.buildGameOverScreen(this.score);
+    this.buildGameOverScreen(this.player1score, this.player2score);
   }
 }
 
@@ -101,16 +106,37 @@ Game.prototype.drawCanvas = function() {
   this.ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
   this.ctx.fillRect(0, 426, this.canvas.width, 100);
 
-  // DISPLAY SCORE
+  // DISPLAY PLAYER1
+  this.ctx.font = '16px sans-serif';
+  this.ctx.textAlign = 'left';
+  this.ctx.fillStyle = 'white';
+  this.ctx.fillText('Player 1', 10, 15);
+  // DISPLAY PLAYER1 SCORE
+  this.ctx.font = '16px sans-serif';
+  this.ctx.textAlign = 'left';
+  this.ctx.fillStyle = 'white';
+  this.ctx.fillText(`Score: ${this.player1score}`, 10, 35);
+  // DISPLAY PLAYER1 STREAK
+  this.ctx.font = '16px sans-serif';
+  this.ctx.textAlign = 'left';
+  this.ctx.fillStyle = 'white';
+  this.ctx.fillText(`Streak: ${this.player1streak}`, 10, 55);
+  
+  // DISPLAY PLAYER2
   this.ctx.font = '16px sans-serif';
   this.ctx.textAlign = 'right';
   this.ctx.fillStyle = 'white';
-  this.ctx.fillText(`Score: ${this.score}`, this.canvas.width - 10, 30);
-  // DISPLAY STREAK
+  this.ctx.fillText('Player 2', this.canvas.width - 10, 15);
+  // DISPLAY PLAYER2 SCORE
   this.ctx.font = '16px sans-serif';
   this.ctx.textAlign = 'right';
   this.ctx.fillStyle = 'white';
-  this.ctx.fillText(`Streak: ${this.streak}`, this.canvas.width - 10, 50);
+  this.ctx.fillText(`Score: ${this.player2score}`, this.canvas.width - 10, 35);
+  // DISPLAY PLAYER2 STREAK
+  this.ctx.font = '16px sans-serif';
+  this.ctx.textAlign = 'right';
+  this.ctx.fillStyle = 'white';
+  this.ctx.fillText(`Streak: ${this.player2streak}`, this.canvas.width - 10, 55);
 
   this.playerOne.draw();
   this.playerTwo.draw();
@@ -142,19 +168,20 @@ Game.prototype.checkOffScreen = function() {
 
 Game.prototype.checkKeyPressCollisions = function(keyPressEvent) {
   // CHECK IF KEYPRESSES MATCH WHEN NOTE IS WITHIN COLLISION AREA
-  let anyNoteHit = false;
+  let player1NoteHit = false;
+  let player2NoteHit = false
   if (keyPressEvent.keyCode == 37) {
     this.notes1.forEach((note, index) => {
       if ((note.y > 451) && (note.y < 501)) {
         const isCollidingOne = this.playerOne.checkCollisionWithNote(note);
         if(isCollidingOne){
-          if (this.streak != 0){
-            this.score = this.score + 10 * this.streak;
+          if (this.player1streak != 0){
+            this.player1score = this.player1score + 10 * this.player1streak;
           } else {
-            this.score = this.score + 10;
+            this.player1score = this.player1score + 10;
           }
-          this.streak += 1;
-          anyNoteHit = true;
+          this.player1streak += 1;
+          player1NoteHit = true;
           this.notes1.splice(index, 1);
         }
       } 
@@ -164,21 +191,24 @@ Game.prototype.checkKeyPressCollisions = function(keyPressEvent) {
       if ((note.y > 451) && (note.y < 501)) {
         const isCollidingTwo = this.playerTwo.checkCollisionWithNote(note);
         if(isCollidingTwo){
-          if (this.streak != 0){
-            this.score = this.score + 10 * this.streak;
+          if (this.player2streak != 0){
+            this.player2score = this.player2score + 10 * this.player2streak;
           } else {
-            this.score = this.score + 10;
+            this.player2score = this.player2score + 10;
           }
-          this.streak += 1;
-          anyNoteHit = true;
+          this.player2streak += 1;
+          player2NoteHit = true;
           this.notes2.splice(index, 1);
         }
       }
     });
   }
   // IF NO NOTES ARE HIT, RESET THE STREAK TO ZERO
-  if (!anyNoteHit) {
-    this.streak = 0;
+  if (!player1NoteHit) {
+    this.player1streak = 0;
+  }
+  if (!player2NoteHit) {
+    this.player2streak = 0;
   }
 }
   
