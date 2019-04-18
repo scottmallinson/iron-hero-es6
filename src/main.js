@@ -51,20 +51,27 @@ function main() {
 
   function buildGameOverScreen(player1score, player2score){
     let winningPlayer = '';
+    let winningScore;
     if (player1score > player2score){
-      winningPlayer = 'Player 1 wins!'
+      winningPlayer = 'Player 1 wins!';
+      winningScore = player1score;
     }
     else if (player1score < player2score) {
-      winningPlayer = 'Player 2 wins!'
+      winningPlayer = 'Player 2 wins!';
+      winningScore = player2score;
     }
     else {
       winningPlayer = 'A draw!'
+      winningScore = player1score;
     }
+    let highScore = this.getHighScore(winningScore);
+    console.log(highScore);
     const gameOverScreen = buildDom(`
       <section>
         <h1>${winningPlayer}</h1>
-        <p>Player 1 scored ${player1score}</p>
-        <p>Player 2 scored ${player2score}</p>
+        <h2><blink>High score: ${highScore}</blink></h2>
+        <p>Player 1 scored ${player1score}
+        <br>Player 2 scored ${player2score}</p>
       </section>
       <button class="restart-button">Play again</button>
     `);

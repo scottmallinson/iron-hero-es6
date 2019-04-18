@@ -166,6 +166,24 @@ Game.prototype.checkOffScreen = function() {
   })
 }
 
+Game.prototype.getHighScore = function(gameWinningScore) {
+  let currentHighScore = window.localStorage.getItem('highScore');
+  if(!gameWinningScore && currentHighScore){
+    return currentHighScore;
+  }
+  if(currentHighScore){
+    if(gameWinningScore > currentHighScore){
+      window.localStorage.setItem('highScore',gameWinningScore);
+      return gameWinningScore;
+    } else {
+      return currentHighScore;
+    }
+  } else {
+    window.localStorage.setItem('highScore',gameWinningScore);
+    return gameWinningScore;
+  }
+}
+
 Game.prototype.checkKeyPressCollisions = function(keyPressEvent) {
   // CHECK IF KEYPRESSES MATCH WHEN NOTE IS WITHIN COLLISION AREA
   let player1NoteHit = false;
