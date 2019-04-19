@@ -28,8 +28,8 @@ Game.prototype.handleStartNotesDrums = function(canvas) {
 
 Game.prototype.startLoop = function() {
   
-  this.playerOne = new Player(this.canvas, 'blue', (this.canvas.width / 2) - 50);
-  this.playerTwo = new Player(this.canvas, 'green', (this.canvas.width / 2) + 50);
+  this.playerOne = new Player(this.canvas, 'rgba(0, 0, 0, 0.5)', (this.canvas.width / 2) - 50);
+  this.playerTwo = new Player(this.canvas, 'rgba(0, 0, 0, 0.5)', (this.canvas.width / 2) + 50);
   
   for (let j = 0; j < guitar.length; j++){
     setTimeout(()=>{this.handleStartNotesGuitar(this.canvas)}, guitar[j]);
