@@ -1,27 +1,28 @@
 'use strict';
 
-function Note(canvas, color, x){
-  this.speed = 1;
-  this.canvas = canvas;
-  this.ctx = this.canvas.getContext('2d');
-  this.size = 30;
-  this.direction = +1;
-  this.y = 0 + this.size / 2;
-  this.color = color;
-  this.x = x;
-}
+class Note {
+  constructor(canvas, color, x) {
+    this.speed = 1;
+    this.canvas = canvas;
+    this.ctx = this.canvas.getContext('2d');
+    this.size = 30;
+    this.direction = +1;
+    this.y = 0 + this.size / 2;
+    this.color = color;
+    this.x = x;
+  }
 
-Note.prototype.draw = function() {
+  draw() {
+    this.ctx.fillStyle = this.color;
+    this.ctx.fillRect(this.x, this.y - this.size / 2, this.size, 4);
+  }
 
-  this.ctx.fillStyle = this.color;
-  this.ctx.fillRect(this.x, this.y - this.size / 2, this.size, 4);
-}
+  update() {
+    this.y = this.y + this.direction * this.speed;
+  }
 
-Note.prototype.update = function() {
-  this.y = this.y + this.direction * this.speed;
-}
-
-Note.prototype.checkOffScreen = function() {
-  const offScreen = this.y > this.canvas.height;
-  return offScreen;
+  checkOffScreen() {
+    const offScreen = this.y > this.canvas.height;
+    return offScreen;
+  }
 }
