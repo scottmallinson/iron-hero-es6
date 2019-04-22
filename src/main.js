@@ -1,15 +1,15 @@
 'use strict';
 
-function main() {
+const main = () => {
 
   const mainElement = document.querySelector('main');
 
-  function buildDom(html) {
+  const buildDom = (html) => {
     mainElement.innerHTML = html;
     return mainElement;
   }
 
-  function buildSplashScreen(){
+  const buildSplashScreen = () => {
     const splashScreen = buildDom(`
       <section>
         <h1>Iron Hero</h1>
@@ -22,7 +22,7 @@ function main() {
     startButton.addEventListener('click', buildGameScreen);
   }
 
-  function buildGameScreen(){
+  const buildGameScreen = () => {
     const gameScreen = buildDom(`
       <section class="game-container">
       <audio src="./audio/track.m4a" preload="auto"></audio>
@@ -43,12 +43,12 @@ function main() {
     game.startLoop();
     game.setGameOverCallback(buildGameOverScreen);
 
-    document.addEventListener('keydown', function(event){
+    document.addEventListener('keydown', (event) => {
         game.checkKeyPressCollisions(event);
     });
   }
 
-  function buildGameOverScreen(player1score, player2score){
+  const buildGameOverScreen = (player1score, player2score) => {
     let winningPlayer = '';
     let winningScore;
     if (player1score > player2score){

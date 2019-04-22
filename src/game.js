@@ -64,16 +64,12 @@ class Game {
 
   startTimer() {
     this.elapsedTime = 7057;
-    setInterval(function() {
-      this.elapsedTime++
-    }.bind(this), 1);
+    setInterval((() => this.elapsedTime++).bind(this), 1);
   }
 
   playAudio() {
     // DELAY THE AUDIO PLAYBACK TO ALLOW THE NOTES TO APPEAR IN PLACE
-    setTimeout(function(){
-      document.querySelector('audio').play();
-    }, 5500);
+    setTimeout(() => {document.querySelector('audio').play()}, 5500)
   }
 
   checkDuration() {
@@ -90,12 +86,8 @@ class Game {
 
   updateCanvas() {
     // UPDATE THE POSITION OF THE NOTES
-    this.notes1.forEach(function(note){
-      note.update();
-    });
-    this.notes2.forEach(function(note){
-      note.update();
-    })
+    this.notes1.forEach((note) => note.update());
+    this.notes2.forEach((note) => note.update());
   }
 
   drawCanvas() {
@@ -140,12 +132,8 @@ class Game {
     // DISPLAY PLAYER2
     this.playerTwo.draw();
     // DISPLAY THE NOTES
-    this.notes1.forEach((note) => {
-      note.draw();
-    })
-    this.notes2.forEach((note) =>{
-      note.draw();
-    })
+    this.notes1.forEach((note) => note.draw());
+    this.notes2.forEach((note) => note.draw());
   }
 
   checkOffScreen() {
