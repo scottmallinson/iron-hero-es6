@@ -48,7 +48,7 @@ const main = () => {
     });
   }
 
-  const buildGameOverScreen = (player1score, player2score) => {
+  function buildGameOverScreen(player1score, player2score) {
     let winningPlayer = '';
     let winningScore;
     if (player1score > player2score){
